@@ -29,8 +29,9 @@ connect_tunnel() {
   ssh_details=$2
   if [ -z $ssh_details ] 
     then raise_exception "error: [$0 $1] requires a user and endpoint to connect to, eg. [$0 $1 user@remote]"
-    else 
-      screen_command="ssh -oStrictHostKeyChecking=no -oUserKnownHostsFile=/dev/null -i /tmp/key -NL localhost:2376:/var/run/docker.sock ${ssh_details}"
+    else
+      [ -f /tmp/config ] && config_param='-F /tmp/config'      
+      screen_command="ssh -oStrictHostKeyChecking=no -oUserKnownHostsFile=/dev/null -i /tmp/key ${config_param} -NL localhost:2376:/var/run/docker.sock ${ssh_details}"
       screen -S sshtunnel -m -d sh -c "${screen_command}"
       generate_env_details
   fi
