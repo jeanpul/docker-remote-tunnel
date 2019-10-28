@@ -1,0 +1,10 @@
+version: '2.2'
+
+services:
+  docker-remote-tunnel-test:
+    container_name: 'docker-remote-tunnel-test'
+    image: "docker-remote-tunnel-test"
+    build: .
+    restart: unless-stopped
+    mem_limit: 200M
+    cpus: 1    
